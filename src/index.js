@@ -7,18 +7,11 @@ import { closeModal, openModal } from './components/modal.js';
 // темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content.querySelector('.card');
 
-// DOM-элемент со списком карточек
-const cardList = document.querySelector('.places__list');
-
-// DOM-элементы, связанные с окном просмотра изображения
-const imageModal = document.querySelector('.popup_type_image');
-imageModal.classList.add('popup_is-animated')
-
 // DOM-элементы, связанные с формой изменения данных
 const editModal = document.querySelector('.popup_type_edit');
 editModal.classList.add('popup_is-animated')
 const editBtn = document.querySelector('.profile__edit-button');
-const formElement = document.querySelector('.popup__form[name="edit-profile"]');//editForm
+const formEditProfile = document.querySelector('.popup__form[name="edit-profile"]');//editForm
 const nameInput = document.querySelector('.popup__input_type_name');
 const jobInput = document.querySelector('.popup__input_type_description');
 const nameValue = document.querySelector('.profile__title');
@@ -28,9 +21,19 @@ const descValue = document.querySelector('.profile__description')
 const addModal = document.querySelector('.popup_type_new-card')
 addModal.classList.add('popup_is-animated')
 const addBtn = document.querySelector('.profile__add-button')
-const addForm = document.querySelector('.popup__form[name="new-place"]');
+const formAddCard = document.querySelector('.popup__form[name="new-place"]');
 const cardNameInput = document.querySelector('.popup__input_type_card-name')
 const typeUrlInput = document.querySelector('.popup__input_type_url')
+
+// DOM-элемент со списком карточек
+const cardList = document.querySelector('.places__list');
+
+// DOM-элементы, связанные с окном просмотра изображения
+const imageModal = document.querySelector('.popup_type_image');
+imageModal.classList.add('popup_is-animated')
+
+const modalImage = imageModal.querySelector('.popup__image')  //
+const modalCaption = imageModal.querySelector('.popup__caption') //
 
 // функция добавления карточки в начало списка
 function prepandCard(card) {
@@ -49,9 +52,7 @@ showCards(initialCards)
 
 // функции открытия модального окна с изображением и подписью
 function showImage(image, caption) {
-    const modalImage = imageModal.querySelector('.popup__image')
     modalImage.src = image.src
-    const modalCaption = imageModal.querySelector('.popup__caption')
     modalCaption.textContent = caption
     openModal(imageModal)
 }
@@ -72,14 +73,14 @@ function getAddFormValues() {
 } 
 
 // обработчик отправки формы добавления новой карточки
-function handleFormSubmit(event) {
+function submitAddCardForm(event) {
     event.preventDefault();
     const cardInfo = getAddFormValues()
     const card = createCard(cardTemplate, cardInfo, deleteCard, likeCard, showImage, imageModal)
     prepandCard(card)
     closeModal(addModal)
 }
-addForm.addEventListener('submit', handleFormSubmit);
+formAddCard.addEventListener('submit', submitAddCardForm);
 
 // установка значений формы из данных со страницы
 function setEditFormValues (){
@@ -105,5 +106,5 @@ function handleEditFormSubmit(event) {
     setDataValues()
     closeModal(editModal)
 };
-formElement.addEventListener('submit', handleEditFormSubmit);
+formEditProfile.addEventListener('submit', handleEditFormSubmit);
  
