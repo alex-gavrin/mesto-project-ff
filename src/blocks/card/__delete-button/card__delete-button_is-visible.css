@@ -1,0 +1,7 @@
+.card__delete-button_is-visible {
+  display: block;
+}
+
+.card__delete-button:hover {
+  opacity: 0.6;
+}

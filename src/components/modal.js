@@ -1,3 +1,5 @@
+import { clearValidation } from "./validation";
+
 let onEscapeEvent;
 
 // функция-обработчик нажатия Escape
@@ -18,6 +20,14 @@ function deleteListeners(modal) {
 function closeModal(modal) {
     deleteListeners(modal)
     modal.classList.remove("popup_is-opened");
+
+    // Получаем все поля формы внутри модального окна
+    const inputs = modal.querySelectorAll('input');
+
+    // Очищаем значения каждого поля
+    inputs.forEach(input => {
+        input.value = ''; // устанавливаем пустое значение
+    });
 }
 
 // функция создания обработчика нажатия клавиши Escape
@@ -48,6 +58,13 @@ function openModal(modal) {
     addCloseBtnListener(modal);
     addBackgroupListener(modal);
     addEscapeListener(modal);
+    
+    // // Ищем кнопку "Сохранить" и принудительно отключаем её - колхозный вариант, но работает
+    // const form = modal.querySelector('.popup__form');
+    // const button = form.querySelector('.popup__button');
+    // button.disabled = true; // принудительное отключение кнопки при открытии
+    // button.classList.add('popup__button_disabled'); // добавляем визуальный класс
+
 }
 
 export { openModal, closeModal };
