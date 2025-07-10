@@ -117,6 +117,7 @@ function showImage(image, caption) {
 
 // обработчик открытия окна добавления карточки
 function onAddModalOpen(modal) {
+    formAddCard.reset();
     openModal(modal);
 
     clearValidation(formAddCard, validationConfig);
@@ -131,6 +132,7 @@ function getAddFormValues() {
     };
     return cardInfo;
 }
+
 
 // обработчик отправки формы добавления новой карточки
 function submitAddCardForm(event) {
@@ -150,7 +152,7 @@ function submitAddCardForm(event) {
             imageModal,
             userId
         );
-        
+
         prepandCard(card);
         closeModal(addModal);
     })
@@ -158,10 +160,7 @@ function submitAddCardForm(event) {
         console.log(err);
     })
     .finally(() => {
-      renderLoading(
-        false,
-        addModal.querySelector(".popup__button")
-      );
+      renderLoading(false,saveCard);
     });
 }
 formAddCard.addEventListener("submit", submitAddCardForm);
@@ -223,10 +222,9 @@ const validationConfig = {
 
 avatarElement.addEventListener("click", (event) => {
     if (event.target.classList.contains("profile__image")) {
+        popupFormEditAvatar.reset();
         openModal(editAvatarPopap);
         clearValidation(popupFormEditAvatar, validationConfig);
-        
-        
     }
 });
 

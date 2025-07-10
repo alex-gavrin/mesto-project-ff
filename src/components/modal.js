@@ -19,14 +19,6 @@ function deleteListeners(modal) {
 function closeModal(modal) {
     deleteListeners(modal)
     modal.classList.remove("popup_is-opened");
-
-    // Получаем все поля формы внутри модального окна
-    const inputs = modal.querySelectorAll('input');
-
-    // Очищаем значения каждого поля
-    inputs.forEach(input => {
-        input.value = ''; // устанавливаем пустое значение
-    });
 }
 
 // функция создания обработчика нажатия клавиши Escape
