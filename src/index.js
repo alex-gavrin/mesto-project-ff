@@ -39,6 +39,10 @@ const formAddCard = document.querySelector('.popup__form[name="new-place"]');
 const cardNameInput = document.querySelector(".popup__input_type_card-name");
 const typeUrlInput = document.querySelector(".popup__input_type_url");
 
+const saveCard = addModal.querySelector(".popup__button");
+const saveProfile = popupFormEditProfile.querySelector(".popup__button");
+const saveAvatar = popupFormEditAvatar.querySelector(".popup__button");
+
 // DOM-элемент со списком карточек
 const cardList = document.querySelector(".places__list");
 
@@ -49,7 +53,7 @@ imageModal.classList.add("popup_is-animated");
 const modalImage = imageModal.querySelector(".popup__image");
 const modalCaption = imageModal.querySelector(".popup__caption");
 
-let userData = null;
+let userId;
 
 const renderLoading = (isLoading, button) => {
     button.textContent = isLoading ? "Сохранение..." : "Сохранить";
@@ -79,7 +83,7 @@ function showCards(cards, userId) {
 function loadUserInfo(user) {
     setDataValues(user.name, user.about);
     setUserAvatar(user.avatar);
-    userData = user;
+    userId = user._id
 }
 
 function loadUserAndCards() {
@@ -106,6 +110,7 @@ loadUserAndCards();
 // функции открытия модального окна с изображением и подписью
 function showImage(image, caption) {
     modalImage.src = image.src;
+    modalImage.alt = caption;
     modalCaption.textContent = caption;
     openModal(imageModal);
 }
@@ -130,13 +135,12 @@ function getAddFormValues() {
 // обработчик отправки формы добавления новой карточки
 function submitAddCardForm(event) {
     event.preventDefault();
-    renderLoading(true, addModal.querySelector(".popup__button"));
+    renderLoading(true, saveCard);
     addCard({
         name: cardNameInput.value,
         link: typeUrlInput.value,
     }).then((cardInfo) => {
         console.log(cardInfo);
-        // const cardInfo = getAddFormValues();
         const card = createCard(
             cardTemplate,
             cardInfo,
@@ -144,7 +148,7 @@ function submitAddCardForm(event) {
             likeCard,
             showImage,
             imageModal,
-            userData._id
+            userId
         );
         
         prepandCard(card);
@@ -169,7 +173,6 @@ function setEditFormValues() {
 }
 
 function setUserAvatar(avatarUrl) {
-    // const avatarElement = document.querySelector(".profile__image");
     avatarElement.style.backgroundImage = `url(${avatarUrl})`;
 }
 
@@ -189,7 +192,7 @@ editBtn.onclick = (event) => onEditModalOpen(editModal);
 // обработчик отправки формы на изменение данных
 function handleEditFormSubmit(event) {
     event.preventDefault();
-    renderLoading(true, popupFormEditProfile.querySelector(".popup__button"));
+    renderLoading(true, saveProfile);
     updateUser({
         name: nameInput.value,
         about: jobInput.value,
@@ -203,9 +206,7 @@ function handleEditFormSubmit(event) {
         })
         .finally(() => {
       renderLoading(
-        false,
-        popupFormEditProfile.querySelector(".popup__button")
-      );
+        false,saveProfile)
     });
 }
 formEditProfile.addEventListener("submit", handleEditFormSubmit);
@@ -231,7 +232,7 @@ avatarElement.addEventListener("click", (event) => {
 
 const handleAvatarFormSubmit = async (evt) => {
     evt.preventDefault();
-    renderLoading(true, popupFormEditAvatar.querySelector(".popup__button"));
+    renderLoading(true, saveAvatar);
     updateUserAvatar(popupFormEditAvatar.link.value)
         .then((user) => {
             avatarElement.style.backgroundImage = `url(${user.avatar})`;
@@ -241,10 +242,7 @@ const handleAvatarFormSubmit = async (evt) => {
             console.log(err);
         })
         .finally(() => {
-            renderLoading(
-                false,
-                popupFormEditAvatar.querySelector(".popup__button")
-            );
+            renderLoading(false,saveAvatar)
         });
 };
 popupFormEditAvatar.addEventListener("submit", handleAvatarFormSubmit);

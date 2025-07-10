@@ -1,4 +1,3 @@
-import { clearValidation } from "./validation";
 
 let onEscapeEvent;
 
@@ -58,13 +57,6 @@ function openModal(modal) {
     addCloseBtnListener(modal);
     addBackgroupListener(modal);
     addEscapeListener(modal);
-    
-    // // Ищем кнопку "Сохранить" и принудительно отключаем её - колхозный вариант, но работает
-    // const form = modal.querySelector('.popup__form');
-    // const button = form.querySelector('.popup__button');
-    // button.disabled = true; // принудительное отключение кнопки при открытии
-    // button.classList.add('popup__button_disabled'); // добавляем визуальный класс
-
 }
 
 export { openModal, closeModal };

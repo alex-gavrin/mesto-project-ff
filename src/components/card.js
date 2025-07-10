@@ -9,7 +9,9 @@ function likeCard(likeBtn, likeCount, cardInfo) {
                 const likesLength = res.likes.length;
                 likeCount.innerText = likesLength
             })
-            .catch((err) => {});
+            .catch((err) => {
+                console.log(err);
+            });
     } else {
         addLike(cardInfo._id)
             .then((res) => {
@@ -18,7 +20,9 @@ function likeCard(likeBtn, likeCount, cardInfo) {
                 likeCount.innerText = likesLength
                 
             })
-            .catch((err) => {});
+            .catch((err) => {
+                console.log(err);
+            });
     }
 }
 
@@ -30,7 +34,9 @@ function deleteCard(card, cardInfo) {
         .then(() => {
             card.remove();
         })
-        .catch((err) => {});
+        .catch((err) => {
+            console.log(err);
+        });
 }
 
 // @todo: Функция создания карточки
